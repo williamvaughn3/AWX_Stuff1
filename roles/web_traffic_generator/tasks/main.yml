@@ -1,0 +1,56 @@
+---
+# tasks file for web-traffic-generator
+
+###############################################################################
+# TRAFFIC GENERATION SERVICE ##################################################
+###############################################################################
+
+# https://docs.ansible.com/ansible/latest/modules/template_module.html
+- name: traffic service | Install traffic.py
+  template:
+    src: templates/traffic/traffic.py.j2
+    dest: "{{ traffic_script_path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0500'
+
+# https://docs.ansible.com/ansible/latest/modules/template_module.html
+- name: traffic service | Install config.py
+  template:
+    src: templates/traffic/config.py.j2
+    dest: "{{ traffic_config_path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0500'
+
+# https://docs.ansible.com/ansible/latest/modules/template_module.html
+- name: traffic service | Install traffic_script.sh
+  template:
+    src: templates/traffic/traffic_script.sh
+    dest: "{{ traffic_script_path2 }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0500'
+
+# https://docs.ansible.com/ansible/latest/modules/template_module.html
+- name: traffic service | Install service (file)
+  template:
+    src: templates/traffic/traffic.service.j2
+    dest: "/etc/systemd/system/{{ traffic_service_name }}.service"
+    owner: root
+    group: root
+    mode: '0644'
+
+# https://docs.ansible.com/ansible/latest/modules/file_module.html
+- name: traffic service | Install service (symlink)
+  file:
+    state: link
+    src: "/etc/systemd/system/{{ traffic_service_name }}.service"
+    dest: "/etc/systemd/system/multi-user.target.wants/{{ traffic_service_name }}.service"
+    
+# https://docs.ansible.com/ansible/latest/modules/service_module.html
+- name: traffic service | enable and start service
+  service:
+    name: "{{ traffic_service_name }}"
+    state: started
+    enabled: yes

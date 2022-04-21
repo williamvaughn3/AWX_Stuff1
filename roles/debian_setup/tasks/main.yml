@@ -1,0 +1,49 @@
+---
+# https://docs.ansible.com/ansible/latest/modules/apt_module.html
+- name: Update APT Cache
+  apt: 
+    update_cache: yes
+
+# https://docs.ansible.com/ansible/latest/modules/apt_module.html
+- name: Remove Undesired Software
+  apt:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+    - byobu
+    - xscreensaver
+    - xscreensaver-data
+    - light-locker
+
+# https://docs.ansible.com/ansible/latest/modules/apt_module.html
+- name: Install Desired Software
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - ntp
+    - numlockx
+    - openssh-server
+    - python3-pip
+    - python3-passlib
+
+# https://docs.ansible.com/ansible/latest/modules/shell_module.html
+- name: Check Timezone Setting
+  shell: timedatectl | grep zone
+  register: my_timezone
+  changed_when: False # avoid changed status
+
+# https://docs.ansible.com/ansible/latest/modules/command_module.html
+- name: Set Timezone to Eastern Time
+  command: timedatectl set-timezone {{ timezone }}
+  when: timezone not in my_timezone.stdout
+
+# https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html
+- name: Add Hostname Loopback Alias
+  lineinfile:
+    path: /etc/hosts
+    regexp: "^127.0.0.1"
+    line: "127.0.0.1\tlocalhost {{ ansible_hostname }}"
+

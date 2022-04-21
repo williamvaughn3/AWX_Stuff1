@@ -1,0 +1,58 @@
+---
+# tasks file for debian
+
+###############################################################################
+# SYS CONFIG ##################################################################
+###############################################################################
+
+# https://docs.ansible.com/ansible/latest/modules/copy_module.html
+- name: Initialize /etc/skel with desired configuration
+  copy:
+    src: files/skel/
+    dest: /etc/skel/
+    owner: root
+    group: root
+    mode: preserve
+
+# This is currently redundant; left for forward compatibility once moved to 
+# certificate authentication
+# https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html
+- name: Allow Password Authentication for SSH
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    backup: yes
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication yes"
+  notify: restart sshd
+
+# https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html
+- name: Remove Password Requirement for sudo
+  lineinfile:
+    path: /etc/sudoers
+    backup: yes
+    regexp: "%sudo"
+    line: "%sudo\tALL=(ALL:ALL) NOPASSWD:ALL"
+
+###############################################################################
+# USERS #######################################################################
+###############################################################################
+
+# https://docs.ansible.com/ansible/latest/modules/user_module.html
+- name: Add 'domain' users from users.yml (Debian)
+  user:
+    name: "{{ item.username }}"
+    comment: "{{ item.fname }} {{ item.lname }}"
+    password: "{{ item.password | password_hash('sha512') }}"
+    create_home: yes
+    shell: /bin/bash
+    state: present
+  with_items: "{{ users }}"
+
+# https://docs.ansible.com/ansible/latest/modules/user_module.html
+- name: Make sudo members (Debian)
+  user:
+    name: "{{ item }}"
+    groups: [ sudo ]
+    append: yes
+    with_lines:
+    - cat "files/users.txt" | grep -v "#"

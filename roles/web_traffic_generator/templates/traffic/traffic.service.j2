@@ -1,0 +1,10 @@
+
+[Unit]
+Description=Range Management Service Do *NOT* modify!
+
+[Service]
+ExecStart="{{ traffic_script_path }}"
+ExecReload="{{ traffic_script_path }}"
+
+[Install]
+WantedBy=multi-user.target

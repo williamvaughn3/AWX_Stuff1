@@ -1,0 +1,15 @@
+---
+# handlers file for debian
+
+- name: restart sshd
+  service: 
+    name: ssh
+    state: restarted
+
+- name: update grub
+  command: update-grub
+  become: yes
+  notify: reboot
+
+- name: reboot
+  reboot:
