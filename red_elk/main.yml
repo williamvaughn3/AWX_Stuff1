@@ -1,15 +1,7 @@
-- hosts: lan_nix_systems
-  # vars:
-  # splunk_forwarder_indexer: "192.168.101.22:9997"
-  # splunk_forwarder_index: "linux"
-  # splunk_forwarder_sourcetype: "client"
-  # splunk_forwarder_logs:
-  #   - /var/log/nginx/access.log
-  #   - /var/log/nginx/error.log
-  # WILL DO THIS IN BY SERVER ROLE 
-
+- hosts: all
+  
   tasks:
     - import_tasks: 'playbook_import/ssh_keygen.yml'
 
   roles:
-    - role: red_elk
+    - role: redelk

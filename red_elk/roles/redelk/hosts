@@ -9,7 +9,7 @@
 172.16.0.102 filebeat_id=redir3
 
 [redelk_server]
-10.16.254.2
+10.16.255.2
 
 [c2servers:vars]
 ansible_ssh_user="{{ ansible user }}"
