@@ -1,0 +1,8 @@
+ansible_user: instructor
+ansible_password: password1234567
+domain_zone: ".com"
+domain_name: "warrantz"
+dns: "192.168.1.250"
+ntpserver: time.nist.gov",
+timezone: "America/New_York"
+ansible_python_interpreter: /usr/bin/python3

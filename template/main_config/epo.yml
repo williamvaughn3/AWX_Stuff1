@@ -1,0 +1,9 @@
+- hosts: nix_acas
+
+  tasks:
+    - import_tasks: 'playbook_import/run_commands.yml'
+    
+  roles:
+    - roles/role1
+    - roles/role2
+

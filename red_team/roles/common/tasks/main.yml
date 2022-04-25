@@ -1,0 +1,8 @@
+---
+
+# https://docs.ansible.com/ansible/latest/modules/service_module.html
+- name: restart ntp
+  service:
+    name: ntpd
+    state: restarted
+

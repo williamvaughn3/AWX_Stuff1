@@ -1,0 +1,3 @@
+ansible_user: instructor
+ansible_password: password1234567
+ubuntu_specific: here

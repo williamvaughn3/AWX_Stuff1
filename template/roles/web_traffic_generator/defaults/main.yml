@@ -1,0 +1,13 @@
+---
+
+traffic_max_depth: 15
+traffic_min_depth: 3
+traffic_max_wait: 15
+traffic_min_wait: 3
+traffic_debug: False
+traffic_user_agent: 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:14.0) Gecko/20100101 Firefox/14.0.1'
+
+traffic_script_path: "/home/{{ ansible_user }}/traffic.py"
+traffic_script_path2: "/home/{{ ansible_user }}/traffic_script.sh"
+traffic_config_path: "/home/{{ ansible_user }}/"
+traffic_service_name: "traffic_generation"

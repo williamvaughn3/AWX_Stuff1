@@ -1,0 +1,5 @@
+- name: Generate RSA host key
+  ansible.builtin.command: ssh-keygen -q -t RSA -N "" -f SSH_RSA_key
+  args:
+    chdir: '/etc/ssh'
+    creates: '/etc/ssh/SSH_RSA_key'  
