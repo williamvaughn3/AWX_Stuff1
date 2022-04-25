@@ -10,3 +10,8 @@ plugins:
   - ssl
   - caltack
   - terminal
+  - sandcat
+  - mock
+  - manx
+  - atomic
+  - human

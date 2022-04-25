@@ -13,8 +13,5 @@
     - import_tasks: 'playbook_import/ssh_keygen.yml'
 
   roles:
-    - roles/debian_setup
-    - roles/common
-    - roles/web_traffic_generator
-#    - roles/splunk_forwarder
+    - Caldera
     

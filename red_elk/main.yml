@@ -1,7 +1,6 @@
 - hosts: all
   
   tasks:
-    - import_tasks: 'playbook_import/ssh_keygen.yml'
-
+    
   roles:
     - role: redelk
