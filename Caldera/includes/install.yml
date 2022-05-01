@@ -1,0 +1,57 @@
+---
+
+  - name: Check if Caldera already exists
+    stat:
+      path: /opt/caldera
+    register: exist_check
+  
+  - name: Caldera Exists Removing Current Configuation
+    shell: "rm -rf /opt/caldera"
+    become: true
+    when: exist_check.stat.exists
+
+  - name: Git caldera
+    become: yes
+    shell: git clone https://github.com/mitre/caldera.git --recursive 
+    register: download
+    args:
+      chdir: /opt/
+    tags: [ caldera, git, clone ]
+  
+
+  - name: install pip install
+    become: yes
+    shell: "python3 -m pip install -U pip"
+    tags: [ pip, user ]
+
+
+  - name: install requirements
+    become: yes
+    pip:
+      requirements: /opt/caldera/requirements.txt
+      executable: pip3
+    tags: [localbuild, requirements, pip, caldera]
+    
+
+  - name: launch
+    become: yes
+    shell: "cd /opt/caldera && nohup /usr/bin/python3 /opt/caldera/server.py --insecure &"
+    tags: [ launch ]
+
+  # - name: Install virtualenv via pip
+  #   become: yes
+  #   pip:
+  #     name: virtualenv
+  #     executable: pip3
+  #   tags: [ pip, venv, ]  
+
+  # - name: pip_requirement_install
+  #   become: true
+  #   pip:
+  #     requirements: /opt/caldera/requirements.txt
+  #     virtualenv: "{{ venv }}"
+  #     virtualenv_python: python3
+  #     virtualenv_site_packages: yes
+  #   register: output
+     
+      

@@ -1,8 +1,4 @@
-ansible_user: "{{ ansible_user }}"
-ansible_password: "{{ ansible_password }}"
-domain_zone: "bde"
-domain_name: "505cav"
-dns: "10.50.255.254"
-ntpserver: time.nist.gov",
+host_key_checking: false
 timezone: "America/New_York"
 ansible_python_interpreter: /usr/bin/python3
+host_key_checking: false

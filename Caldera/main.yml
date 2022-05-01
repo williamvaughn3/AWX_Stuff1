@@ -1,7 +1,32 @@
+---
 - hosts: all
+  become: true
 
   tasks:
-    - import_tasks: 'playbook_import/ssh_keygen.yml'
 
-  roles:
-    - role: caldera
+    - name: dependa install
+      become: true
+      import_tasks: imports/dependa.yml
+      tags: [ dependas ]
+    
+    - name: Check for ssh key
+      stat:
+        path: "~/{{ ansible_user }}/.ssh/id_rsa"
+      register: key
+
+    - name: Create SSH Keypair if not Present
+      include_tasks: includes/ssh_keygen.yml
+      when: key.stat.exists == false
+      tags: [ ssh_keygen ]
+
+    - name: Build Caldera and Profit
+      include_tasks: includes/install.yml
+      register: result
+      ignore_errors: true
+      tags: [ caldera ]
+
+      
+
+
+
+

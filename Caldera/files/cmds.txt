@@ -1,6 +1,7 @@
 ################################################################################################################################################
 # Enter Shell commands 
 ################################################################################################################################################
-touch /tmp/log.ansible
-whoami | tee -a log.ansible
-echo "Wazzzup" | tee -a log.ansible
+!#/bin/bash
+touch /tmp/test.ansible
+whoami | tee -a test.ansible
+echo "Wazzzup - Working fine" | tee -a test.ansible

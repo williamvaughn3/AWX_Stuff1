@@ -1,0 +1,12 @@
+---
+
+  - name: check if id_rsa exists
+    become: true
+    stat:
+      path: /root/.ssh/id_rsa
+    register: key
+
+  - name: Generate an OpenSSH keypair
+    community.crypto.openssh_keypair:
+      path: /root/.ssh/id_rsa
+    when: key.stat.exists 
